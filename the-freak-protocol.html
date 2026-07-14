@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE FREAK PROTOCOL — 92 Days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800;900&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f1215; --panel:#171c21; --panel2:#1d242b; --line:#2a3138;
+  --text:#e8e4dc; --dim:#9aa3ac; --faint:#6b7580;
+  --ember:#e0862b; --ember-dk:#a35d15;
+  --teal:#3fa7bd; --green:#4caf7d; --red:#d64545; --gold:#c9a84c;
+  --mono:'IBM Plex Mono',monospace; --disp:'Barlow Condensed',sans-serif; --body:'Barlow',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.55;padding-bottom:90px}
+::selection{background:var(--ember);color:#0f1215}
+
+header{padding:26px 18px 14px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+  background:linear-gradient(90deg,var(--ember) var(--prog,0%),var(--line) var(--prog,0%))}
+.brand{font-family:var(--disp);font-weight:900;font-size:34px;letter-spacing:.03em;line-height:1}
+.brand em{font-style:normal;color:var(--ember)}
+.tagline{color:var(--dim);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
+
+nav{display:flex;gap:2px;position:sticky;top:0;background:var(--bg);z-index:50;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:1;min-width:86px;background:none;border:none;color:var(--dim);font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.08em;padding:13px 8px 11px;cursor:pointer;border-bottom:3px solid transparent;text-transform:uppercase}
+nav button.active{color:var(--text);border-bottom-color:var(--ember)}
+nav button:focus-visible{outline:2px solid var(--ember);outline-offset:-2px}
+
+main{max-width:820px;margin:0 auto;padding:18px}
+section.tab{display:none}
+section.tab.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){section.tab.active{animation:none}}
+
+.daycount{font-family:var(--disp);font-weight:900;font-size:76px;line-height:.9;letter-spacing:.01em}
+.daycount span{font-size:30px;color:var(--faint);font-weight:800}
+.phasechip{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;padding:4px 10px;border:1px solid var(--ember);color:var(--ember);border-radius:3px;text-transform:uppercase;margin-top:8px}
+.datebar{display:flex;align-items:center;gap:10px;margin:14px 0 4px;flex-wrap:wrap}
+.datebar .dt{font-family:var(--mono);font-size:13px;color:var(--dim)}
+.datebar button{background:var(--panel);border:1px solid var(--line);color:var(--text);font-family:var(--mono);font-size:13px;padding:6px 12px;border-radius:4px;cursor:pointer}
+.datebar button:hover{border-color:var(--ember)}
+.datebar button:focus-visible{outline:2px solid var(--ember)}
+
+.quote{border-left:3px solid var(--gold);padding:12px 16px;margin:18px 0;background:var(--panel);border-radius:0 6px 6px 0}
+.quote p{font-size:16.5px;font-weight:500;font-style:italic;color:var(--text)}
+.quote cite{display:block;margin-top:6px;font-style:normal;font-family:var(--mono);font-size:12px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;margin:14px 0;overflow:hidden}
+.card>.chead{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card>.chead h3{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
+.card>.chead .sub{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.05em}
+.card .cbody{padding:8px 16px 14px}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;padding:2px 8px;border-radius:3px;text-transform:uppercase}
+.tag.swim{background:rgba(63,167,189,.15);color:var(--teal)}
+.tag.lift{background:rgba(224,134,43,.15);color:var(--ember)}
+.tag.rehab{background:rgba(76,175,125,.15);color:var(--green)}
+.tag.lax{background:rgba(201,168,76,.16);color:var(--gold)}
+.tag.rec{background:rgba(154,163,172,.15);color:var(--dim)}
+.tag.test{background:rgba(214,69,69,.15);color:var(--red)}
+
+.exrow{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:9px 0;border-bottom:1px dashed var(--line);align-items:start}
+.exrow:last-child{border-bottom:none}
+.exrow .nm{font-weight:600;font-size:14.5px}
+.exrow .nm small{display:block;font-weight:400;color:var(--dim);font-size:12.5px;margin-top:2px;line-height:1.45}
+.exrow .dose{font-family:var(--mono);font-size:13px;color:var(--ember);white-space:nowrap;text-align:right;padding-top:2px}
+.exrow.done .nm,.exrow.done .dose{opacity:.38;text-decoration:line-through}
+.exrow label{display:flex;gap:10px;cursor:pointer;align-items:start}
+.exrow input{margin-top:4px;accent-color:var(--ember);width:15px;height:15px;flex:none}
+.blockh{font-family:var(--disp);font-weight:800;font-size:15px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin:14px 0 2px}
+.blockh:first-child{margin-top:6px}
+.why{background:var(--panel2);border-radius:6px;padding:10px 14px;margin-top:12px;font-size:13.5px;color:var(--dim)}
+.why b{color:var(--text)}
+
+.ph{border:1px solid var(--line);border-radius:8px;margin:14px 0;overflow:hidden}
+.ph summary{padding:14px 16px;cursor:pointer;list-style:none;display:flex;gap:12px;align-items:baseline;background:var(--panel)}
+.ph summary::-webkit-details-marker{display:none}
+.ph summary .n{font-family:var(--disp);font-weight:900;font-size:22px;color:var(--ember)}
+.ph summary h3{font-family:var(--disp);font-weight:800;font-size:20px;letter-spacing:.04em;text-transform:uppercase}
+.ph summary .rng{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-left:auto}
+.ph .pbody{padding:4px 16px 16px;border-top:1px solid var(--line)}
+.wk{margin:10px 0;border-left:2px solid var(--line);padding-left:12px}
+.wk h4{font-family:var(--disp);font-size:16px;font-weight:800;letter-spacing:.06em;color:var(--gold);text-transform:uppercase}
+.wk p{font-size:13.5px;color:var(--dim)}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}
+th{font-family:var(--disp);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px;text-align:left;color:var(--dim);padding:8px 10px;border-bottom:2px solid var(--line)}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.mono{font-family:var(--mono);font-size:12.5px;color:var(--ember);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+
+.alert{border:1px solid var(--red);background:rgba(214,69,69,.08);border-radius:8px;padding:12px 16px;margin:14px 0}
+.alert h4{color:var(--red);font-family:var(--disp);font-size:17px;letter-spacing:.06em;text-transform:uppercase}
+.pass{border:1px solid var(--green);background:rgba(76,175,125,.07);border-radius:8px;padding:12px 16px;margin:14px 0}
+.pass h4{color:var(--green);font-family:var(--disp);font-size:17px;letter-spacing:.06em;text-transform:uppercase}
+ul.tick{list-style:none;margin-top:6px}
+ul.tick li{padding:4px 0 4px 22px;position:relative;font-size:13.5px}
+ul.tick li::before{content:"\25A1";position:absolute;left:2px;color:var(--dim)}
+h2.sec{font-family:var(--disp);font-weight:900;font-size:26px;letter-spacing:.04em;text-transform:uppercase;margin:22px 0 4px}
+h2.sec em{font-style:normal;color:var(--ember)}
+p.lede{color:var(--dim);font-size:14px;margin-bottom:8px}
+.foot{color:var(--faint);font-size:12px;font-family:var(--mono);text-align:center;margin-top:34px;letter-spacing:.06em}
+a{color:var(--teal)}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="brand">THE <em>FREAK</em> PROTOCOL</div>
+  <div class="tagline">92 days · rebuilt, reloaded, unreasonable · Jul 16 — Oct 15, 2026</div>
+</header>
+
+<nav id="nav" role="tablist">
+  <button class="active" data-tab="today">Today</button>
+  <button data-tab="program">Program</button>
+  <button data-tab="testing">Testing</button>
+  <button data-tab="failsafes">Fail-Safes</button>
+  <button data-tab="playbook">Playbook</button>
+</nav>
+
+<main>
+<section class="tab active" id="tab-today"></section>
+<section class="tab" id="tab-program"></section>
+<section class="tab" id="tab-testing"></section>
+<section class="tab" id="tab-failsafes"></section>
+<section class="tab" id="tab-playbook"></section>
+</main>
+
+<script>
+/* ============================================================
+   THE FREAK PROTOCOL — data + engine
+   Progress checkboxes are in-memory only (reset on refresh).
+   To persist, wire the checkbox handler to your own storage.
+   ============================================================ */
+
+const START = new Date(2026,6,16);           // Jul 16
+const END   = new Date(2026,9,15);           // Oct 15
+const DAY   = 86400000;
+const fmt = d => d.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
+const dayNum = d => Math.floor((stripT(d)-stripT(START))/DAY)+1;   // 1..92
+function stripT(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate());}
+
+const PHASES=[
+ {n:1,name:"THE REBUILD",start:new Date(2026,6,16),end:new Date(2026,7,14),
+  goal:"Ankle + shoulder reconstructed, physique built, swim engine installed. Rehab gates govern all lower-body and explosive decisions.",
+  color:"var(--ember)"},
+ {n:2,name:"ITALY — THE ROAD BLOCK",start:new Date(2026,7,15),end:new Date(2026,7,26),
+  goal:"Run-based VO2 development + maintenance strength with zero equipment guaranteed. Arrive back sharper aerobically than you left.",
+  color:"var(--teal)"},
+ {n:3,name:"THE RELOAD",start:new Date(2026,7,27),end:new Date(2026,8,9),
+  goal:"Back at Brown, full gym: explosive strength, sprint speed, snatches, plyometrics. The freak-of-nature block.",
+  color:"var(--gold)"},
+ {n:4,name:"SEASON MODE",start:new Date(2026,8,10),end:new Date(2026,9,15),
+  goal:"Lacrosse leads. Two lifts + one VO2 top-up per week keep everything you built while practice sharpens it.",
+  color:"var(--green)"}
+];
+function phaseOf(d){d=stripT(d);for(const p of PHASES){if(d>=stripT(p.start)&&d<=stripT(p.end))return p;}return null;}
+function weekInPhase(d,p){return Math.floor((stripT(d)-stripT(p.start))/DAY/7)+1;}
+
+/* ---------- shared blocks ---------- */
+const SHOULDER_MIN={h:"SHOULDER DAILY MINIMUM (4 min — before everything)",tag:"rehab",rows:[
+ ["Band pull-aparts","2\u00d715","Palms down, 1s squeeze"],
+ ["Band external rotation, elbow at side","2\u00d715/side","Towel pinned at elbow. Slow."],
+ ["Scap push-ups","1\u00d712","Arms locked; only the blades move"]]};
+const SHOULDER_FULL={h:"SHOULDER FULL BLOCK (~15 min, done warm)",tag:"rehab",rows:[
+ ["Side-lying DB external rotation","3\u00d712\u201315/side","2.5\u20135 lb. THE cuff builder. Strict."],
+ ["Band internal rotation","2\u00d715/side","Subscapularis"],
+ ["Prone Y-T-W","2\u00d78 each","Thumbs up, 1s hold. DBs from Wk 4"],
+ ["Face pulls","3\u00d715","Pull to eyebrows, knuckles rotate up"],
+ ["Serratus wall slides","2\u00d710","Reach at the top"],
+ ["Isometric biceps hold @90\u00b0","3\u00d730s","Light DB. \u22642/10. Tendon dose."],
+ ["Cross-body + sleeper stretch","2\u00d730s each","Gentle"]]};
+const CUFF_FIN={h:"CUFF FINISHER (3 min)",tag:"rehab",rows:[
+ ["Face pulls","3\u00d715",""],["Band external rotation","2\u00d715/side",""]]};
+const ANKLE=(w)=>({h:"ANKLE BLOCK (per rehab protocol — Week "+w+")",tag:"rehab",rows:[
+ ["Run the Week "+w+" ankle block from the rehab PDF","~15\u201320 min","Band 4-way \u00b7 balance ladder \u00b7 heel-raise progression \u00b7 pain \u22643/10 \u00b7 morning-after rule"]]});
+const ANKLE_MAINT={h:"ANKLE INSURANCE (2\u00d7/week forever)",tag:"rehab",rows:[
+ ["Band eversion, heavy + slow","3\u00d712/side","The peroneals catch the ankle before the ligament loads"],
+ ["Single-leg balance, eyes closed / unstable","3\u00d730s","Proprioception decays without practice"],
+ ["Single-leg heel raises","3\u00d715","Calf capacity = ankle armor"]]};
+const WALLBALL=(min,note)=>({h:"LACROSSE — EVERY DAY",tag:"lax",rows:[
+ ["Wall ball",min+" min",note||"Both hands, quick sticks, fakes. The stick never takes a day off."]]});
+
+/* ---------- PHASE 1 sessions (weekday 0=Sun..6=Sat) ---------- */
+function p1(dow,w){
+ const wkA=(a)=>a[Math.min(w,4)-1];
+ switch(dow){
+  case 4: return {title:"SWIM — VO2 INTERVALS",tags:["swim","rehab"],blocks:[
+    SHOULDER_MIN,
+    {h:"MAIN SET (300m WU / 200m CD around it)",tag:"swim",rows:[
+     ["VO2 set",wkA(["8\u00d7100m @RPE8 · :30 rest","10\u00d7100m @RPE8\u20139 · :25","12\u00d7100m @RPE9 · :20","6\u00d7100m @RPE9 + 8\u00d750m max · :20"]),"All reps within 3s of each other. No flip turns / hard push-offs until Wk 3."]]},
+    SHOULDER_FULL,ANKLE(w),WALLBALL(15)],
+    why:"VO2 leads the week while you're freshest. Shoulder block lands post-swim — warm tissue takes cuff work best, and fatigue can't wreck stroke mechanics mid-set."};
+  case 5: return {title:"PULL + HIPS",tags:["lift","rehab"],blocks:[
+    SHOULDER_MIN,
+    {h:"A — PULL (rest 2\u20133 min mains)",tag:"lift",rows:[
+     ["Pull-ups — overhand/neutral ONLY","5\u00d7max\u22122","1\u20132 RIR always. Vest Wk 3\u20134 only if shoulder silent 2 wks."],
+     ["1-arm DB row, neutral grip","4\u00d78\u201310/side","Heavy. Elbow to hip."],
+     ["Inverted rows / cable row (neutral)","3\u00d712\u201315","1s squeeze; elevate feet to progress"],
+     ["Rear-delt flyes, chest supported","3\u00d715","Light + strict — the from-behind look"],
+     ["DB shrugs","3\u00d712 · 2s hold","No rolling"]]},
+    {h:"B — HIPS (ankle-neutral legs)",tag:"lift",rows:[
+     ["Hip thrust","4\u00d710\u201312","Heavy by Wk 2. Engine + centerpiece."],
+     ["Nordic / sliding leg curls","4\u00d76\u20138","Cuts hamstring injury risk ~50% (van der Horst 2015)"],
+     ["Copenhagen plank","3\u00d720\u201330s/side","Groin injuries \u221241% (Har\u00f8y 2019)"],
+     ["Side-lying abduction / banded clam","3\u00d715/side","Glute med = clean landings"],
+     [w>=3?"DB RDL + goblet squat (gates passed)":"— standing loaded legs locked until Wk 3 gates —",w>=3?"3\u00d710 each":"","First standing load. Perfect form, moderate weight."]]},
+    CUFF_FIN,ANKLE(w),WALLBALL(15)],
+    why:"Pulling lands the day AFTER swimming so the shoulder never stacks both stimuli. All rows neutral/overhand, elbow-driven — back grows, biceps tendon stays out of the line of fire."};
+  case 6: return {title:"SWIM — PEAK SESSION",tags:["swim"],blocks:[
+    SHOULDER_MIN,
+    {h:"MAIN SET — hardest of the week",tag:"swim",rows:[
+     ["Peak set",wkA(["5\u00d7200m @RPE8 · :45","6\u00d7200m @RPE8\u20139 · :40","Pyramid 100\u2013400\u2013100 @RPE9 · :45","8\u00d7200m @RPE9 · :30 — all within 3s"]),"Highest-carb day. Fuel it."]]},
+    ANKLE(w),WALLBALL(15)],
+    why:"One clearly hardest session per week is how the engine actually moves — everything else supports it."};
+  case 0: return {title:"RECOVERY — THE ADAPTATION WINDOW",tags:["rec","rehab"],blocks:[
+    {h:"ENGINEERED, NOT PASSIVE",tag:"rec",rows:[
+     ["Easy swim flush","600\u2013900m @RPE4\u20135","Circulation, not stimulus. Do not race it."],
+     ["Full mobility","20\u201325 min","Hips, T-spine, calves, rear capsule"],
+     ["Log the week","5 min","Pull-up reps, swim times, pain scores, morning HR"]]},
+    SHOULDER_FULL,
+    {h:"ANKLE — LIGHT ONLY",tag:"rehab",rows:[["Balance play + gentle band","~8 min","Stand on the left leg while brushing teeth"]]},
+    WALLBALL(10,"Easy hands only")],
+    why:"Lowest-carb day. Sleep is tonight's workout — the week ahead is earned here."};
+  case 1: return {title:"PUSH + CORE",tags:["lift","rehab"],blocks:[
+    SHOULDER_MIN,
+    {h:"A — PUSH",tag:"lift",rows:[
+     ["Incline DB press","4\u00d78\u201310","Your staple. Full ROM, no bounce."],
+     ["Flat DB press","3\u00d78\u201310","Slight elbow tuck — kinder to the front of the shoulder"],
+     ["Weighted / archer push-ups","3\u00d712\u201315","Volume finisher"],
+     [w>=2?"Dips — shallow, assess":"Dips — SKIP Wk 1",w>=2?"3\u00d78\u201312":"","Stop on any front-shoulder pinch"],
+     [w>=3?"DB lateral raises":"Lateral raises unlock Wk 3 (shoulder ladder)",w>=3?"3\u00d712\u201315":"","The side-delt cap. Strict, stop at shoulder height."],
+     [w>=3?"Seated DB OHP, neutral grip":"Overhead press unlocks Wk 3 if silent",w>=3?"3\u00d78\u201310":"","First overhead load — earn it"]]},
+    {h:"B — CORE (visible abs + shot velocity)",tag:"lift",rows:[
+     ["Hanging knee/leg raises","4\u00d710\u201315","Lying raises if shoulder cranky"],
+     ["Hollow body hold","4\u00d730\u201345s",""],
+     ["Pallof press","3\u00d712/side","Anti-rotation stiffness = shot speed"],
+     ["Side plank + reach-through","3\u00d730\u201345s/side",""],
+     ["Ab-wheel rollouts (knees)","3\u00d78\u201312",""]]},
+    CUFF_FIN,ANKLE(w),WALLBALL(20,"Some reps on the left leg only (Wk 2+)")],
+    why:"Delts, chest, abs — the front of the jersey. Every press variation chosen for what it gives divided by what it costs the biceps tendon."};
+  case 2: return {title:"SWIM — THRESHOLD / LONG",tags:["swim","rehab"],blocks:[
+    SHOULDER_MIN,
+    {h:"MAIN SET",tag:"swim",rows:[
+     ["Engine room",wkA(["1,200m continuous @RPE6\u20137","1,600m continuous @RPE7","4\u00d7400m @RPE8 · :45","MILE TIME TRIAL — 1,600m all-out. Record it."]),w===4?"The benchmark. Empty the tank.":"Steady, controlled, boring on purpose"]]},
+    SHOULDER_FULL,ANKLE(w),
+    {h:"STICK",tag:"lax",rows:[["Stationary shooting","15\u201320 min","Low-leg day = skill day"]]}],
+    why:"Threshold volume is what makes the Thursday intervals survivable and the Saturday peak repeatable."};
+  case 3: return {title:"ARMS + DENSITY — GATE TEST DAY",tags:["lift","test"],blocks:[
+    {h:"FIRST: ANKLE GATE TESTS — completely fresh",tag:"test",rows:[
+     ["Run this week's gate from the rehab protocol","Pass = advance","Fail = repeat the week. Gates > dates."]]},
+    SHOULDER_MIN,
+    {h:"A — ARMS (tendon-safe)",tag:"lift",rows:[
+     ["Close-grip push-ups / DB skull crushers","3\u00d710\u201315","Triceps are 2/3 of the arm"],
+     ["Overhead DB triceps extension","3\u00d712","Long head"],
+     [w>=3?"Hammer curls (unlocked)":"Hammer curls unlock Wk 3 if isometrics silent 2 wks",w>=3?"2\u20133\u00d712 light":"","Neutral grip: brachialis grows, tendon spared. 3s eccentric Wk 4."],
+     ["Band pressdowns","2\u00d720","Pump finisher"]]},
+    {h:"B — DENSITY CIRCUIT ("+wkA(["3 rounds","4 rounds","5 rounds","5 rounds · rest 60s"])+")",tag:"lift",rows:[
+     ["Push-ups \u00d720 \u2192 inverted rows \u00d712 \u2192 hollow rocks \u00d720","",""],
+     ["Hip thrusts \u00d720 \u2192 pull-ups \u00d76 (1\u20132 RIR) \u2192 plank taps \u00d720","",""],
+     ["Dips \u00d710 (if cleared) \u2192 slow mountain climbers \u00d730 \u2192 rest 90s","","Heart rate, not failure. Zero impact."]]},
+    CUFF_FIN,WALLBALL(15)],
+    why:"Gate tests come first and fresh — they decide next week. The circuit is the leanness session: calisthenics as cardio, exactly the tool it's always been in your program."};
+ }
+}
+
+/* ---------- PHASE 2: ITALY — repeating 4-day microcycle ---------- */
+function p2(d){
+ const idx=Math.floor((stripT(d)-stripT(PHASES[1].start))/DAY); // 0..11
+ const cyc=idx%4, rd=Math.floor(idx/4)+1; // round 1..3
+ const vo2=["4\u00d73min @90% HRmax · 3min jog rest","4\u00d74min @90\u201395% HRmax · 3min jog (Helgerud protocol)","5\u00d74min @90\u201395% HRmax · 3min jog — or 16\u00d730s/30s @ ~vVO2"][rd-1];
+ const base={tags:["rec"],blocks:[]};
+ if(cyc===0) return {title:"RUN — VO2 (Round "+rd+"/3)",tags:["swim"],blocks:[
+   {h:"THE SESSION",tag:"swim",rows:[
+    ["Warm-up jog + drills","12 min","A-skips, high knees, 4\u00d715s strides"],
+    ["Intervals",vo2,"The single best-evidenced VO2max protocol (Helgerud 2007). Hard but repeatable."],
+    ["Cool-down","8 min easy",""]]},
+   {h:"AFTER",tag:"lift",rows:[["Push-up ladder 1\u21929\u21921 + bench/step dips \u00d73\u00d715","~10 min","Any piazza bench works"]]},
+   SHOULDER_MIN,
+   {h:"ANKLE (travel version)",tag:"rehab",rows:[["Single-leg balance eyes closed 3\u00d730s + SL heel raises 3\u00d715","5 min","No band needed. Every VO2 day."]]},
+   WALLBALL(15,"The stick flies in the suitcase. Any wall in Italy is a wall.")],
+   why:"Cobblestones and 20k steps/day are free Zone 2 — the intervals are the only thing you must manufacture. Three hard runs a round is the whole aerobic job."};
+ if(cyc===1) return {title:"ZONE 2 + MOBILITY",tags:["rec"],blocks:[
+   {h:"AEROBIC BASE",tag:"swim",rows:[["Easy run 40\u201350 min @ conversational pace — or a 90+ min hike/walk day","Z2","Nose-breathable. This is where the engine's floor rises."]]},
+   {h:"MOBILITY",tag:"rec",rows:[["Full session: hips, calves, T-spine, rear capsule","20 min",""]]},
+   SHOULDER_MIN,WALLBALL(15)],
+   why:"High-volume low-intensity days between interval days is exactly how endurance athletes periodize — Italy hands you this for free."};
+ if(cyc===2) return {title:"BODYWEIGHT STRENGTH (Round "+rd+"/3)",tags:["lift"],blocks:[
+   SHOULDER_MIN,
+   {h:"FIND A BAR (playground, scaffolding, sturdy branch)",tag:"lift",rows:[
+    ["Pull-ups — overhand/neutral","5\u00d7max\u22122","1\u20132 RIR. No bar? See Fail-Safes tab."],
+    ["Push-up medley: standard / decline / archer","4\u00d715\u201320","Slow eccentrics beat added reps"],
+    ["Bulgarian split squats (bench/steps)","4\u00d710\u201312/side","Rear foot elevated. Legs don't get the trip off."],
+    ["Single-leg RDL, bodyweight or bag","3\u00d710/side","Balance + hamstrings + ankle proprioception in one"],
+    ["Lateral lunges","3\u00d710/side","The cutting pattern, bodyweight version"],
+    ["Hollow hold + side plank","4\u00d740s / 3\u00d740s each",""]]},
+   {h:"SPEED TOUCH",tag:"swim",rows:[["Strides 6\u00d720s @ ~85\u201390%, full recovery","after","Keeps the nervous system fast while the gym is gone"]]},
+   WALLBALL(20)],
+   why:"Muscle is retained with surprisingly little: hard sets close to failure, twice a week, protein high (Morton 2018). This session plus the VO2-day push-ups is enough to come home full."};
+ return {title:"OFF — EARNED",tags:["rec"],blocks:[
+   {h:"THE ASSIGNMENT",tag:"rec",rows:[
+    ["Walk everywhere, eat well, sleep 9","all day","Gelato is carb timing if you squint"],
+    ["10 min mobility before bed","10 min",""]]},
+   SHOULDER_MIN,WALLBALL(10,"Optional but you'll do it anyway")],
+   why:"Twelve days of accumulated fatigue relief is a planned deload — you'll hit The Reload with a body that's begging to lift heavy. That's by design."};
+}
+
+/* ---------- PHASE 3: RELOAD (weekday map) ---------- */
+function p3(dow,w,d){
+ // Re-entry: Aug 27 (land from Italy), Aug 28 (home), Aug 29 (travel to Brown)
+ if(d){
+  const dn=stripT(d).getTime();
+  if(dn===new Date(2026,7,27).getTime()) return {title:"RE-ENTRY — LAND, RESET",tags:["rec"],blocks:[
+    {h:"JET-LAG PROTOCOL",tag:"rec",rows:[
+     ["Easy run or walk in daylight","25\u201330 min","Morning light + movement resets the clock fastest"],
+     ["Full mobility","20 min","Undo the airplane"],
+     ["Hydrate + protein anchor meals + local bedtime","all day","No naps past 3pm. Sleep wins the Reload."]]},
+    SHOULDER_MIN,WALLBALL(15)],
+    why:"Lifting heavy jet-lagged on day 1 back is how re-entry weeks get wasted. One disciplined reset day buys a full-quality Reload."};
+  if(dn===new Date(2026,7,28).getTime()) return {title:"RE-ENTRY — FIRST SWIM BACK",tags:["swim"],blocks:[
+    SHOULDER_MIN,
+    {h:"POOL",tag:"swim",rows:[["8\u00d7100m @RPE8 · :30 + 400m steady","~1,500m","The Italy running kept the engine — this reminds the shoulders"]]},
+    {h:"PRIME THE LEGS",tag:"lift",rows:[["Hip thrusts 3\u00d710 + goblet squats 3\u00d710 + pogo hops 3\u00d715","moderate","Wakes tissue up so Monday's heavy session isn't a DOMS massacre"]]},
+    ANKLE_MAINT,WALLBALL(20)],
+    why:"A priming day before the first heavy lower session cuts week-1 soreness dramatically — and protects Tuesday's sprint quality."};
+  if(dn===new Date(2026,7,29).getTime()) return {title:"TRAVEL TO BROWN — MOVE, DON'T TRAIN",tags:["rec"],blocks:[
+    {h:"MOVING DAY",tag:"rec",rows:[
+     ["Carry the boxes — that's the workout","","Unpack, find the gym hours, stock protein"],
+     ["10 min mobility tonight","10 min",""]]},
+    SHOULDER_MIN,WALLBALL(15,"First wall at Brown — christen it")],
+    why:"Monday the real Reload begins. Arriving organized is worth more than one forced session today."};
+ }
+ switch(dow){
+  case 1: return {title:"LOWER — EXPLOSIVE STRENGTH",tags:["lift"],blocks:[
+    SHOULDER_MIN,
+    {h:"FRENCH CONTRAST PAIRINGS (heavy \u2192 plyo, 2\u20133 min between pairs)",tag:"lift",rows:[
+     ["A1. Trap-bar deadlift","5\u00d73\u20134 @ ~85%","Heavy strength drives sprint speed (Seitz 2014 meta)"],
+     ["A2. Depth-drop \u2192 box jump ('plate drop' pattern)","5\u00d73","Step off 12\u201318in, land, explode onto box. PAP pairing (Wilson 2013). Stick every landing."],
+     ["B1. Hip thrust","4\u00d76\u20138 heavy","Horizontal force — your favorite earns its keep (Contreras 2017)"],
+     ["B2. Broad jumps","4\u00d73","Max intent, full reset between reps"]]},
+    {h:"ARMOR",tag:"lift",rows:[
+     ["Nordic curls","3\u00d76","Non-negotiable for a sprinter"],
+     ["Copenhagen plank, long lever","3\u00d725s/side",""],
+     ["Heavy single-leg calf raises","3\u00d710/side","Ankle insurance under load"]]},
+    ANKLE_MAINT,WALLBALL(20)],
+    why:"Week 1 back: loads at 80% of pre-trip, bar speed high. Week 2: full send. The contrast method turns strength into the thing lacrosse actually pays for — explosiveness."};
+  case 2: return {title:"SPEED + VO2 RUN",tags:["swim","test"],blocks:[
+    {h:"SPRINT WORK (full recovery — this is not conditioning)",tag:"lift",rows:[
+     ["Accelerations 10\u201320m","6\u00d7","Walk-back rest. Max intent."],
+     ["Flying 20s (20m build \u2192 20m fly)","4\u00d7","Top-end speed. Sprinting is the most specific speed training there is."],
+     ["5-10-5 pro agility","4\u00d7","Timed. The cutting pattern, restored."]]},
+    {h:"VO2 TOP-UP (after full rest)",tag:"swim",rows:[["4\u00d74min @90\u201395% HRmax or 12\u00d730/30s","run","Keep the Italy gains"]]},
+    SHOULDER_MIN,WALLBALL(20)],
+    why:"Speed before conditioning, always — you can't teach a tired nervous system to be fast."};
+  case 3: return {title:"UPPER — HEAVY",tags:["lift"],blocks:[
+    SHOULDER_MIN,
+    {h:"MAIN",tag:"lift",rows:[
+     ["Weighted pull-ups (shoulder cleared)","4\u00d75\u20136","STILL 1\u20132 RIR. The ceiling never moves."],
+     ["Incline DB press","4\u00d76\u20138",""],
+     ["Seated DB OHP, neutral","3\u00d78",""],
+     ["Chest-supported row","4\u00d710",""],
+     ["Lateral raises","4\u00d712\u201315","The cap"],
+     ["Face pulls + rear-delt flyes superset","3\u00d715+15",""],
+     ["Hammer curls + overhead triceps","3\u00d710 each","3s eccentrics on curls"]]},
+    WALLBALL(20)],why:"Now it's a real upper day — the rehab block bought back every tool. The RIR rule on vertical pulling is permanent; it's why the tendon stays quiet."};
+  case 4: return {title:"TOTAL POWER — SNATCH DAY",tags:["lift","swim"],blocks:[
+    SHOULDER_MIN,
+    {h:"BALLISTIC WORK",tag:"lift",rows:[
+     ["KB snatch","6\u00d75/side, EMOM-style","Crisp singles-quality reps. Power lives at low reps, high intent (Cormie 2011)."],
+     ["Overhead KB carry","4\u00d740m/side","Your pick — and a legitimately elite shoulder-stability exercise. Ribs down, lockout tall."],
+     ["Med-ball rotational scoop throws","4\u00d76/side","Against a wall, max violence. This is shot velocity."],
+     ["Hill sprints or sled push","6\u00d715s","Full recovery"]]},
+    {h:"SWIM",tag:"swim",rows:[["10\u00d7100m @RPE8\u20139 · :25","~1,500m","The pool stays in the rotation — it built the engine"]]},
+    ANKLE_MAINT,WALLBALL(20)],
+    why:"Snatches, carries, throws, sprints — everything here is triple-extension and rotation, the two movements lacrosse is made of."};
+  case 5: return {title:"FIELD DAY — LACROSSE LOAD",tags:["lax"],blocks:[
+    {h:"ON THE FIELD",tag:"lax",rows:[
+     ["Footwork ladder + cone COD, full speed","15 min",""],
+     ["Shooting on the run, both hands","30\u201340 min","Game speed. Film it."],
+     ["Reactive cutting (partner or app cues)","10 min","Unplanned > planned now"]]},
+    SHOULDER_MIN,
+    {h:"FINISHER",tag:"swim",rows:[["8\u00d740s hard / 80s easy shuttle runs","field","Lacrosse-shaped conditioning"]]},WALLBALL(0,"Covered above")],
+    why:"By Sept 10 the sport must feel automatic. This day is the dress rehearsal."};
+  case 6: return {title:"LONG AEROBIC + SKILLS",tags:["swim","lax"],blocks:[
+    {h:"ENGINE FLOOR",tag:"swim",rows:[["Z2 run 45\u201355 min OR 1,800m steady swim","RPE6","Alternate weekly"]]},
+    WALLBALL(25,"High-rep, both hands, tired-hands training"),SHOULDER_MIN],
+    why:"A big aerobic floor is what makes you the guy still sprinting in the 4th quarter."};
+  case 0: return {title:"OFF / MOBILITY",tags:["rec"],blocks:[
+    {h:"RECOVERY",tag:"rec",rows:[["Full mobility 25 min + easy walk","",""],["Log the week + plan groceries","","1g/lb protein doesn't happen by accident at school"]]},
+    SHOULDER_MIN],why:"Two brutal weeks. The one real off day is load management, not weakness."};
+ }
+}
+
+/* ---------- PHASE 4: SEASON MODE ---------- */
+function p4(dow,w){
+ const dl=(w%4===0);
+ switch(dow){
+  case 1: return {title:"LIFT A — TOTAL BODY STRENGTH"+(dl?" (DELOAD)":""),tags:["lift"],blocks:[
+    SHOULDER_MIN,
+    {h:dl?"DELOAD — 60% loads, same movements, leave fresh":"MAIN (rest 2\u20133 min)",tag:"lift",rows:[
+     ["Trap-bar deadlift or squat","4\u00d74"+(dl?" @60%":" heavy"),""],
+     ["Hip thrust","3\u00d78",""],
+     ["Incline DB press","3\u00d78",""],
+     ["Weighted pull-up (1\u20132 RIR)","3\u00d75",""],
+     ["Nordic + Copenhagen","3\u00d76 / 3\u00d725s","Injury insurance is now permanent"],
+     ["Lateral raises + face pulls","3\u00d715 each",""]]},
+    ANKLE_MAINT,WALLBALL(15)],
+    why:"In-season, strength is maintained with 2 hard sessions — the research on maintenance doses is unambiguous. Practice provides the rest."};
+  case 4: return {title:"LIFT B — POWER"+(dl?" (DELOAD)":""),tags:["lift"],blocks:[
+    SHOULDER_MIN,
+    {h:dl?"DELOAD — half volume, full speed":"MAIN — everything fast",tag:"lift",rows:[
+     ["Depth-drop \u2192 box jump","4\u00d73",""],
+     ["KB snatch","5\u00d74/side",""],
+     ["Overhead KB carry","3\u00d740m/side",""],
+     ["Med-ball rotational throws","4\u00d75/side","Shot velocity maintenance"],
+     ["DB row + hammer curls + triceps","3\u00d710 each","The look stays"]]},
+    WALLBALL(15)],
+    why:"Low volume, maximum intent. Power decays in ~2 weeks without a stimulus — this is the stimulus."};
+  case 3: return {title:"VO2 TOP-UP (skip if practice was brutal)",tags:["swim"],blocks:[
+    {h:"ONE HARD DOSE",tag:"swim",rows:[["4\u00d74min run @90\u201395% HRmax OR 10\u00d7100m swim @RPE9","pick one","One weekly dose maintains VO2max. Practice intensity counts — be honest about total load."]]},
+    SHOULDER_MIN,WALLBALL(15)],
+    why:"The engine you built in 8 weeks holds on one hard session a week. Guard it."};
+  case 0: return {title:"FULL RECOVERY",tags:["rec"],blocks:[
+    {h:"RECOVER LIKE IT'S YOUR JOB",tag:"rec",rows:[["Mobility 20 min + 9h sleep target","","In-season, recovery IS the training"],["Weekly log: RHR, sleep avg, soreness, pain scores","5 min",""]]},SHOULDER_MIN],
+    why:"Sept\u2013Oct: the winner of fall ball is whoever recovers between sessions best."};
+  default: return {title:"PRACTICE DAY — LACROSSE LEADS",tags:["lax"],blocks:[
+    {h:"AROUND PRACTICE",tag:"lax",rows:[
+     ["Team practice / captain's practice","as scheduled","This is now the main training stimulus"],
+     ["Pre: 5 min ankle + shoulder minimums","5 min","Non-negotiable warm-up insurance"],
+     ["Post: 10 min mobility + protein within the hour","10 min",""]]},
+    WALLBALL(15,"Extra touches beyond practice — the separator")],
+    why:"From Sept 10, everything in this app orbits practice. Show up to it fresher and more durable than everyone else — that was the whole point of the last 8 weeks."};
+ }
+}
+
+function getSession(d){
+ const p=phaseOf(d); if(!p) return null;
+ let w=weekInPhase(d,p); const dow=d.getDay();
+ if(p.n===1){w=Math.min(w,4); return {...p1(dow,w),phase:p,week:w};}
+ if(p.n===2) return {...p2(d),phase:p,week:w};
+ if(p.n===3) return {...p3(dow,w,d),phase:p,week:w};
+ return {...p4(dow,w),phase:p,week:w};
+}
+
+/* ---------- 92 STOIC QUOTES ---------- */
+const QUOTES=[
+["You have power over your mind — not outside events. Realize this, and you will find strength.","Marcus Aurelius"],
+["We suffer more often in imagination than in reality.","Seneca"],
+["No man is more unhappy than he who never faces adversity. For he is not permitted to prove himself.","Seneca"],
+["First say to yourself what you would be; and then do what you have to do.","Epictetus"],
+["The impediment to action advances action. What stands in the way becomes the way.","Marcus Aurelius"],
+["Difficulties strengthen the mind, as labor does the body.","Seneca"],
+["It is not because things are difficult that we do not dare; it is because we do not dare that they are difficult.","Seneca"],
+["Waste no more time arguing about what a good man should be. Be one.","Marcus Aurelius"],
+["He who fears death will never do anything worthy of a man who is alive.","Seneca"],
+["If it is endurable, then endure it. Stop complaining.","Marcus Aurelius"],
+["Man conquers the world by conquering himself.","Zeno of Citium"],
+["The greater the difficulty, the more glory in surmounting it.","Epictetus"],
+["You must build up your life action by action.","Marcus Aurelius"],
+["A gem cannot be polished without friction, nor a man perfected without trials.","Seneca"],
+["Don't explain your philosophy. Embody it.","Epictetus"],
+["At dawn, when you have trouble getting out of bed, tell yourself: I have to go to work — as a human being.","Marcus Aurelius"],
+["Luck is what happens when preparation meets opportunity.","Seneca"],
+["No great thing is created suddenly, any more than a bunch of grapes or a fig.","Epictetus"],
+["The soul becomes dyed with the color of its thoughts.","Marcus Aurelius"],
+["He suffers more than necessary, who suffers before it is necessary.","Seneca"],
+["Circumstances don't make the man, they only reveal him to himself.","Epictetus"],
+["Confine yourself to the present.","Marcus Aurelius"],
+["Begin at once to live, and count each separate day as a separate life.","Seneca"],
+["It's not what happens to you, but how you react to it that matters.","Epictetus"],
+["The best revenge is to be unlike him who performed the injury.","Marcus Aurelius"],
+["While we wait for life, life passes.","Seneca"],
+["Only the educated are free.","Epictetus"],
+["Do every act of your life as though it were the very last act of your life.","Marcus Aurelius"],
+["Hang on to your youthful enthusiasms — you'll be able to use them better when you're older.","Seneca"],
+["Freedom is the only worthy goal in life. It is won by disregarding things that lie beyond our control.","Epictetus"],
+["Very little is needed to make a happy life; it is all within yourself, in your way of thinking.","Marcus Aurelius"],
+["Every night before going to sleep, we must ask ourselves: what weakness did I overcome today?","Seneca"],
+["Seek not the good in external things; seek it in yourselves.","Epictetus"],
+["Nowhere can man find a quieter or more untroubled retreat than in his own soul.","Marcus Aurelius"],
+["To bear trials with a calm mind robs misfortune of its strength.","Seneca"],
+["Know, first, who you are, and then adorn yourself accordingly.","Epictetus"],
+["Loss is nothing else but change, and change is Nature's delight.","Marcus Aurelius"],
+["Nothing is heavy to those who have wings.","Seneca"],
+["Attach yourself to what is spiritually superior. Rise with it.","Epictetus"],
+["Accept the things to which fate binds you, and love the people with whom fate brings you together.","Marcus Aurelius"],
+["Time discovers truth.","Seneca"],
+["Wealth consists not in having great possessions, but in having few wants.","Epictetus"],
+["When you arise in the morning, think of what a precious privilege it is to be alive — to breathe, to think, to enjoy, to love.","Marcus Aurelius"],
+["He who is brave is free.","Seneca"],
+["No man is free who is not master of himself.","Epictetus"],
+["Reject your sense of injury and the injury itself disappears.","Marcus Aurelius"],
+["As is a tale, so is life: not how long it is, but how good it is, is what matters.","Seneca"],
+["Make the best use of what is in your power, and take the rest as it happens.","Epictetus"],
+["Look well into thyself; there is a source of strength which will always spring up if thou wilt always look.","Marcus Aurelius"],
+["Sometimes even to live is an act of courage.","Seneca"],
+["First learn the meaning of what you say, and then speak.","Epictetus"],
+["He who lives in harmony with himself lives in harmony with the universe.","Marcus Aurelius"],
+["All cruelty springs from weakness.","Seneca"],
+["Curb your desire — don't set your heart on so many things and you will get what you need.","Epictetus"],
+["Because a thing seems difficult for you, do not think it impossible for anyone to accomplish.","Marcus Aurelius"],
+["Life is long if you know how to use it.","Seneca"],
+["If you want to improve, be content to be thought foolish and stupid.","Epictetus"],
+["Perfection of character is this: to live each day as if it were your last, without frenzy, without apathy, without pretense.","Marcus Aurelius"],
+["Fire tests gold, adversity tests brave men.","Seneca"],
+["It is impossible for a man to learn what he thinks he already knows.","Epictetus"],
+["Never let the future disturb you. You will meet it, if you have to, with the same weapons of reason which today arm you against the present.","Marcus Aurelius"],
+["The whole future lies in uncertainty: live immediately.","Seneca"],
+["People are not disturbed by things, but by the views they take of them.","Epictetus"],
+["Think of yourself as dead. You have lived your life. Now take what's left and live it properly.","Marcus Aurelius"],
+["True happiness is to enjoy the present, without anxious dependence upon the future.","Seneca"],
+["He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.","Epictetus"],
+["A man's worth is no greater than the worth of his ambitions.","Marcus Aurelius"],
+["It does not matter what you bear, but how you bear it.","Seneca"],
+["Any person capable of angering you becomes your master.","Epictetus"],
+["Give yourself a gift: the present moment.","Marcus Aurelius"],
+["Withdraw into yourself, as far as you can. Associate with those who will make a better man of you.","Seneca"],
+["The key is to keep company only with people who uplift you, whose presence calls forth your best.","Epictetus"],
+["How much more grievous are the consequences of anger than the causes of it.","Marcus Aurelius"],
+["Nothing, to my way of thinking, is a better proof of a well ordered mind than a man's ability to stop just where he is and pass some time in his own company.","Seneca"],
+["Progress is not achieved by luck or accident, but by working on yourself daily.","Epictetus"],
+["Dwell on the beauty of life. Watch the stars, and see yourself running with them.","Marcus Aurelius"],
+["That man lives badly who does not know how to die well.","Seneca"],
+["Don't hope that events will turn out the way you want; welcome events in whichever way they happen.","Epictetus"],
+["What we do now echoes in eternity.","Marcus Aurelius"],
+["Throw me to the wolves and I will return leading the pack.","Seneca (attributed)"],
+["To accuse others for one's own misfortunes is a sign of want of education.","Epictetus"],
+["The universe is change; our life is what our thoughts make it.","Marcus Aurelius"],
+["A sword never kills anybody; it is a tool in the killer's hand.","Seneca"],
+["Suffering comes from three things: demanding, blaming, and wishing things were otherwise.","Epictetus"],
+["Receive without pride, let go without attachment.","Marcus Aurelius"],
+["Every new beginning comes from some other beginning's end.","Seneca"],
+["If you seek truth you will not seek victory by dishonorable means.","Epictetus"],
+["The happiness of your life depends upon the quality of your thoughts.","Marcus Aurelius"],
+["Associate with people who are likely to improve you.","Seneca"],
+["You become what you give your attention to.","Epictetus"],
+["Today I escaped anxiety. Or no — I discarded it, because it was within me, in my own perceptions.","Marcus Aurelius"],
+["Hardship is the raw material. What you build with it is the résumé.","The Protocol"]
+];
+
+/* ---------- RENDER ---------- */
+const $=id=>document.getElementById(id);
+function tags(t){return t.map(x=>`<span class="tag ${x}">${x==='swim'?'engine':x==='lift'?'iron':x==='rehab'?'rehab':x==='lax'?'lacrosse':x==='test'?'test':'recover'}</span>`).join(' ');}
+
+function renderBlocks(blocks){
+ return blocks.map(b=>{
+  const rows=b.rows.map(r=>{
+   const note=r[2]?`<small>${r[2]}</small>`:'';
+   return `<div class="exrow"><label><input type="checkbox" onchange="this.closest('.exrow').classList.toggle('done',this.checked)"><span class="nm">${r[0]}${note}</span></label><span class="dose">${r[1]||''}</span></div>`;
+  }).join('');
+  return `<div class="blockh">${b.h} <span class="tag ${b.tag}">${b.tag}</span></div>${rows}`;
+ }).join('');
+}
+
+let viewDate=new Date();
+if(stripT(viewDate)<stripT(START)) viewDate=new Date(START);
+if(stripT(viewDate)>stripT(END)) viewDate=new Date(END);
+
+function renderToday(){
+ const d=viewDate, s=getSession(d), n=dayNum(d);
+ const q=QUOTES[(n-1+QUOTES.length*10)%QUOTES.length];
+ document.getElementById('hdr').style.setProperty('--prog',Math.round(n/92*100)+'%');
+ $('tab-today').innerHTML=`
+  <div class="datebar">
+    <button onclick="shiftDay(-1)" aria-label="Previous day">\u2190</button>
+    <span class="dt">${fmt(d)}</span>
+    <button onclick="shiftDay(1)" aria-label="Next day">\u2192</button>
+    <button onclick="viewDate=new Date();clampView();renderToday()">today</button>
+  </div>
+  <div class="daycount">DAY ${n}<span> / 92</span></div>
+  <div class="phasechip" style="border-color:${s.phase.color};color:${s.phase.color}">Phase ${s.phase.n} · ${s.phase.name} · Week ${s.week}</div>
+  <div class="quote"><p>\u201C${q[0]}\u201D</p><cite>${q[1]}</cite></div>
+  <div class="card">
+    <div class="chead"><h3>${s.title}</h3><span class="sub">${tags(s.tags)}</span></div>
+    <div class="cbody">${renderBlocks(s.blocks)}
+      ${s.why?`<div class="why"><b>Why this day is built this way:</b> ${s.why}</div>`:''}
+    </div>
+  </div>
+  <div class="why"><b>Tonight:</b> in bed for 8.5\u20139.5 hours (9+ in season). Sleep under 8 nearly doubles athlete injury risk (Milewski 2014). Protein \u22651g/lb today. Zero alcohol through the block.</div>`;
+}
+function shiftDay(k){viewDate=new Date(stripT(viewDate).getTime()+k*DAY);clampView();renderToday();}
+function clampView(){if(stripT(viewDate)<stripT(START))viewDate=new Date(START);if(stripT(viewDate)>stripT(END))viewDate=new Date(END);}
+
+function renderProgram(){
+ const wkNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+ let html=`<h2 class="sec">THE <em>92-DAY</em> MAP</h2><p class="lede">Four phases. Each phase below expands into its weekly template — the Today tab applies the correct week's progression automatically.</p>`;
+ PHASES.forEach(p=>{
+  let inner='';
+  if(p.n===2){
+   inner=`<div class="wk"><h4>Repeating 4-day cycle \u00d7 3 rounds</h4><p>Day 1 — VO2 run (4\u00d73 \u2192 4\u00d74 \u2192 5\u00d74 min @90\u201395% HRmax) · Day 2 — Zone-2 run or hike + mobility · Day 3 — bodyweight strength + strides · Day 4 — off, walk, eat, sleep. Wall ball daily, shoulder minimum daily, travel ankle routine on run days.</p></div>
+   <div class="wk"><h4>The honest framing</h4><p>Italy is a planned functional deload wrapped around an aerobic block. You return around Aug 27 fresher AND aerobically sharper — set up perfectly for the heaviest two weeks of the summer.</p></div>`;
+  } else {
+   const days=p.n===1?[4,5,6,0,1,2,3]:p.n===3?[1,2,3,4,5,6,0]:[1,2,3,4,5,6,0];
+   inner=days.map(dw=>{
+    const s=p.n===1?p1(dw,1):p.n===3?p3(dw,1):p4(dw,1);
+    return `<div class="wk"><h4>${wkNames[dw]} — ${s.title.replace(' (DELOAD)','')}</h4><p>${s.blocks.filter(b=>b.tag!=='rehab').map(b=>b.h.split('(')[0].trim()).join(' · ')}</p></div>`;
+   }).join('');
+   if(p.n===1) inner+=`<div class="wk"><h4>Weekly progressions</h4><p>Swim volume climbs every week (see Today tab per date). Lifting unlocks follow the shoulder ladder: dips Wk 2 · lateral raises, OHP, hammer curls, standing leg work Wk 3 · loaded eccentrics + vest Wk 4. Ankle gates every Wednesday decide the lower body. Gates > dates.</p></div>`;
+   if(p.n===4) inner+=`<div class="wk"><h4>Deload rhythm</h4><p>Every 4th week both lifts run at 60% load / half volume, full speed. Practice load counts — if the week was brutal on the field, the deload comes early. Nobody gets a trophy for winning September.</p></div>`;
+  }
+  html+=`<details class="ph" ${p.n===1?'open':''}><summary><span class="n">0${p.n}</span><h3>${p.name}</h3><span class="rng">${p.start.toLocaleDateString('en-US',{month:'short',day:'numeric'})} \u2013 ${p.end.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span></summary><div class="pbody"><p class="lede" style="margin-top:10px">${p.goal}</p>${inner}</div></details>`;
+ });
+ $('tab-program').innerHTML=html;
+}
+
+function renderTesting(){
+ $('tab-testing').innerHTML=`
+ <h2 class="sec">TEST <em>DAYS</em></h2>
+ <p class="lede">Four testing windows. Same conditions every time: fresh, morning, same warm-up, logged.</p>
+ <div class="card"><div class="chead"><h3>T0 — Baseline</h3><span class="sub">Thu\u2013Fri · Jul 16\u201317</span></div><div class="cbody"><table>
+ <tr><th>Test</th><th>Protocol</th></tr>
+ <tr><td>Max strict pull-ups</td><td class="mono">stop at 1\u20132 RIR — even on tests</td></tr>
+ <tr><td>Max push-ups, one set</td><td class="mono">full ROM</td></tr>
+ <tr><td>100m swim all-out</td><td class="mono">timed</td></tr>
+ <tr><td>Mile swim steady baseline</td><td class="mono">timed, RPE 7</td></tr>
+ <tr><td>Morning resting HR</td><td class="mono">7-day average</td></tr>
+ <tr><td>Bodyweight + waist + photo</td><td class="mono">same conditions always</td></tr></table></div></div>
+
+ <div class="card"><div class="chead"><h3>T1 — Rebuild Exit</h3><span class="sub">Wed · Aug 12</span></div><div class="cbody"><table>
+ <tr><th>Test</th><th>Standard</th></tr>
+ <tr><td>Ankle exit gate (rehab protocol)</td><td class="mono">ALL criteria — this is the one that matters</td></tr>
+ <tr><td>Mile swim TIME TRIAL</td><td class="mono">beat T0 pace at equal effort or better</td></tr>
+ <tr><td>Pull-ups / push-ups retest</td><td class="mono">+2 / +5 minimum</td></tr>
+ <tr><td>Shoulder pain during pulling</td><td class="mono">target: 0/10</td></tr>
+ <tr><td>Photo + waist</td><td class="mono">visible change expected</td></tr></table></div></div>
+
+ <div class="card"><div class="chead"><h3>T2 — Reload Exit</h3><span class="sub">Tue\u2013Wed · Sep 8\u20139</span></div><div class="cbody"><table>
+ <tr><th>Test</th><th>Protocol</th></tr>
+ <tr><td>Vertical jump (CMJ)</td><td class="mono">best of 5, phone app fine</td></tr>
+ <tr><td>10m + 30m sprint</td><td class="mono">timed, 3 attempts</td></tr>
+ <tr><td>5-10-5 pro agility</td><td class="mono">both directions</td></tr>
+ <tr><td>4\u00d74min run — HR response</td><td class="mono">lower HR at same pace vs Italy = engine grew</td></tr>
+ <tr><td>Weighted pull-up</td><td class="mono">5RM estimate @ 1\u20132 RIR</td></tr></table></div></div>
+
+ <div class="card"><div class="chead"><h3>T3 — In-Season Check</h3><span class="sub">Tue · Oct 6</span></div><div class="cbody"><table>
+ <tr><th>Test</th><th>Standard</th></tr>
+ <tr><td>CMJ retest</td><td class="mono">within 5% of T2 = power maintained</td></tr>
+ <tr><td>Morning RHR trend</td><td class="mono">stable = managing load; +7bpm = deload now</td></tr>
+ <tr><td>Ankle: SL balance eyes closed + hop symmetry</td><td class="mono">quarterly forever</td></tr></table></div></div>
+
+ <div class="pass"><h4>The point of testing</h4><ul class="tick">
+ <li>Numbers make the invisible visible — VO2 work "feels" the same for weeks while the engine grows underneath</li>
+ <li>Every test has a fail-safe attached (next tab). A missed number is a diagnosis, not a verdict.</li></ul></div>`;
+}
+
+function renderFailsafes(){
+ $('tab-failsafes').innerHTML=`
+ <h2 class="sec">FAIL-<em>SAFES</em></h2>
+ <p class="lede">Every weekly target has a pre-decided correction. Missing a number never means "try harder" — it means run the specific fix. Decided now, so no negotiating with yourself later.</p>
+ <table>
+ <tr><th>If this happens\u2026</th><th>\u2026the fix is</th></tr>
+ <tr><td><b>Missed a session</b></td><td>Never miss two. Swap, don't skip: the week's hardest session survives, the accessory session dies. A missed lift folds its 2 main lifts into the next session as 2 sets each.</td></tr>
+ <tr><td><b>Swim/run interval times slipping across the week</b></td><td>It's almost never fitness. Audit in order: sleep hours \u2192 carbs on hard days \u2192 pacing rep 1 (you're starting too hot). Fix the first broken one. Still slipping after a week: add one easy Z2 session, subtract nothing.</td></tr>
+ <tr><td><b>Pull-ups stalled 2 weeks</b></td><td>Check RIR honesty first (film a set — bar speed doesn't lie). Then: add one back-off set of 50% reps, +20g protein/day, and verify sleep. Progress resumes within 10 days or drop 2 total sets for a week (overreached, not underworked).</td></tr>
+ <tr><td><b>Morning resting HR +7bpm for 3 days</b></td><td>Under-recovered. That day's session drops one hard set per block; next Sunday becomes fully off. HR normal = resume. This one is not optional — it's the earliest overtraining alarm you own.</td></tr>
+ <tr><td><b>Sleep average under 8h for a week</b></td><td>Cut the LAST hard set of every session until fixed (tired training is stolen training). Fix: fixed wake time 7 days, screens off 60 min before bed, room cold + black. Sleep is a training variable, not a lifestyle preference — under 8h \u2248 1.7\u00d7 injury risk (Milewski 2014).</td></tr>
+ <tr><td><b>Weight dropping >1%/week during deficit weeks</b></td><td>You're burning muscle, not just fat. +150 kcal (carbs, on hard days) and reassess in 7 days.</td></tr>
+ <tr><td><b>Weight flat + waist flat for 2 weeks (Wk 3+)</b></td><td>\u2212150 kcal from rest-day carbs only. Hard-day fueling is untouchable.</td></tr>
+ <tr><td><b>Shoulder: pain during pulling</b></td><td>End pulling that day. Next session: 50% pull volume. Clears = rebuild over a week. Doesn't clear, or ANY night pain 3+ nights = message PT, hold all pulling progression.</td></tr>
+ <tr><td><b>Ankle: swelling, giving-way, or pain >3/10</b></td><td>Rehab protocol rules override everything. Back one level, morning-after rule decides. New bruising or a rolling episode = PT same day.</td></tr>
+ <tr><td><b>Italy: no pull-up bar found</b></td><td>Towel rows on a railing/door + doorframe iso rows + wide push-up volume \u00d71.5. Back width holds for 12 days easily. Search: parks (calisthenics bars are everywhere in Italian parks), playgrounds, scaffolding.</td></tr>
+ <tr><td><b>Italy: schedule chaos, session windows vanish</b></td><td>The irreducible day: 20 min run with 6\u00d71 min hard + push-up ladder + wall ball. 30 minutes total. Zero-day count for the trip must stay \u22643.</td></tr>
+ <tr><td><b>Back at Brown: DOMS wrecking week 1 of Reload</b></td><td>Planned. Loads start at 80% of pre-trip; if soreness compromises sprint quality, sprint day slides 24h. Speed work only happens fresh.</td></tr>
+ <tr><td><b>Season: practice + lifts burying you</b></td><td>Drop the VO2 top-up first, Lift B second, Lift A never. One heavy full-body session/week maintains strength for months in-season.</td></tr>
+ <tr><td><b>Motivation gone</b></td><td>Motivation was never the plan. The plan is the plan. Do the first 10 minutes; the day always follows. Read today's quote again. Then start.</td></tr>
+ </table>
+ <div class="alert"><h4>Hard stops — no fail-safe applies, PT/doctor same day</h4>
+ <ul class="tick"><li>Ankle: new bruising, giving-way episode, swelling persisting past 24h</li>
+ <li>Shoulder: night pain 3+ consecutive nights, or pulling pain that survives a 50% volume cut</li>
+ <li>Anything sharp, sudden, or with a pop — anywhere</li></ul></div>`;
+}
+
+function renderPlaybook(){
+ $('tab-playbook').innerHTML=`
+ <h2 class="sec">THE <em>PLAYBOOK</em></h2>
+
+ <div class="card"><div class="chead"><h3>Sleep — the anabolic window</h3></div><div class="cbody"><table>
+ <tr><td><b>Phases 1\u20133</b></td><td class="mono">8.5\u20139.5 h in bed</td></tr>
+ <tr><td><b>Phase 4 (in-season)</b></td><td class="mono">9+ h · naps \u226430 min pre-3pm</td></tr>
+ <tr><td><b>Non-negotiables</b></td><td>Fixed wake time (even weekends) · screens off 60 min before bed · cold dark room · caffeine cutoff 10 hours before bed</td></tr>
+ <tr><td><b>Why this hard-lined</b></td><td>Milewski 2014: adolescent athletes under 8h \u2192 ~1.7\u00d7 injury rate. Mah 2011 (Stanford): sleep extension alone improved sprint times and shooting accuracy. Sleep is the only legal performance drug this good.</td></tr></table></div></div>
+
+ <div class="card"><div class="chead"><h3>Fuel</h3></div><div class="cbody"><table>
+ <tr><td><b>Protein</b></td><td class="mono">\u22651 g/lb bodyweight, every day, all 92 days</td></tr>
+ <tr><td><b>Wks 1\u20132</b></td><td>Maintenance calories — two healing tissues need material. The deficit waits.</td></tr>
+ <tr><td><b>Wks 3+</b></td><td>Modest deficit (~300 kcal) when leaning; carbs cycled — highest on peak/interval days, lowest on off days. Hard-day fueling is never cut.</td></tr>
+ <tr><td><b>Italy</b></td><td>Eat the food. Walk 20k steps. Protein anchor at 2 meals/day. You will come back leaner anyway.</td></tr>
+ <tr><td><b>Creatine</b></td><td class="mono">5 g/day, daily, forever</td></tr>
+ <tr><td><b>Collagen option</b></td><td>15 g collagen/gelatin + vit C ~45 min before rehab work (Shaw 2017 — cheap, plausible, not magic)</td></tr>
+ <tr><td><b>Alcohol</b></td><td class="mono">zero through Phase 1 · rare after</td></tr></table></div></div>
+
+ <div class="card"><div class="chead"><h3>Evidence locker</h3><span class="sub">what the program is built on</span></div><div class="cbody"><table>
+ <tr><th>Claim in the program</th><th>Source</th></tr>
+ <tr><td>4\u00d74 min @90\u201395% HRmax is the gold-standard VO2max protocol</td><td class="mono">Helgerud et al. 2007, MSSE</td></tr>
+ <tr><td>HIIT programming principles, 30/30s & 30-15</td><td class="mono">Buchheit & Laursen 2013</td></tr>
+ <tr><td>Heavier squat/deadlift strength \u2192 faster sprinting</td><td class="mono">Seitz et al. 2014 meta-analysis</td></tr>
+ <tr><td>Plyometrics improve jump, sprint, and COD in team-sport athletes</td><td class="mono">Ram\u00edrez-Campillo et al., multiple metas</td></tr>
+ <tr><td>Heavy-lift \u2192 plyo pairing (contrast/PAP) boosts power output</td><td class="mono">Wilson et al. 2013 meta-analysis</td></tr>
+ <tr><td>Hip thrusts build horizontal force relevant to acceleration</td><td class="mono">Contreras et al. 2017</td></tr>
+ <tr><td>Nordic curls cut hamstring injuries ~50%+</td><td class="mono">van der Horst 2015; Petersen 2011</td></tr>
+ <tr><td>Copenhagen adduction work cuts groin injuries ~41%</td><td class="mono">Har\u00f8y et al. 2019, BJSM</td></tr>
+ <tr><td>Balance/proprioception training slashes ankle re-sprain risk</td><td class="mono">Verhagen 2004; McKeon & Hertel 2008</td></tr>
+ <tr><td>Protein ~1.6\u20132.2 g/kg maximizes lean gain</td><td class="mono">Morton et al. 2018 meta, BJSM</td></tr>
+ <tr><td>Creatine: most-proven legal ergogenic for power + lean mass</td><td class="mono">Kreider et al. 2017, ISSN position stand</td></tr>
+ <tr><td>Sleep <8h \u2192 ~1.7\u00d7 injury risk; extension improves performance</td><td class="mono">Milewski 2014; Mah 2011</td></tr>
+ <tr><td>Collagen + vit C pre-loading may aid tendon/ligament remodeling</td><td class="mono">Shaw et al. 2017, AJCN</td></tr>
+ <tr><td>Tapering/deloads restore performance without detraining</td><td class="mono">Bosquet et al. 2007 meta</td></tr></table>
+ <p class="lede" style="margin-top:8px">Author/year given so you can verify each one yourself — a program you can audit is a program you can trust.</p></div></div>
+
+ <div class="card"><div class="chead"><h3>Permanent rules — the constitution</h3></div><div class="cbody">
+ <ul class="tick">
+ <li>Pull-ups at 1\u20132 RIR, overhand/neutral grip: forever. This rule is why the shoulder works.</li>
+ <li>Ankle insurance (eversion + balance + calves) 2\u00d7/week: forever. Sprained ligaments that stop training proprioception re-sprain.</li>
+ <li>Shoulder daily minimum before every session: 4 minutes, permanent.</li>
+ <li>Brace or tape the left ankle for all games through the fall season.</li>
+ <li>Pain ceiling \u22643/10 and the morning-after rule outrank every plan ever written, including this one.</li>
+ <li>The stick touches a wall every single day. That is the sport tax, and it's the cheapest one you'll ever pay.</li>
+ </ul></div></div>
+
+ <div class="why" style="margin-top:18px"><b>A note on checkboxes:</b> progress resets when the page refreshes — this file ships storage-free by design. When you wire it into your GitHub app, connect the checkbox handler to whatever persistence you like.</div>
+ <div class="foot">THE FREAK PROTOCOL · built for Matteo · gates > dates · 92 days</div>`;
+}
+
+/* nav */
+document.querySelectorAll('nav button').forEach(b=>{
+ b.addEventListener('click',()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('section.tab').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');$('tab-'+b.dataset.tab).classList.add('active');
+  window.scrollTo({top:0});
+ });
+});
+
+renderToday();renderProgram();renderTesting();renderFailsafes();renderPlaybook();
+</script>
+</body>
+</html>
